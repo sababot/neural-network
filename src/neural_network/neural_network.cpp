@@ -1,3 +1,8 @@
-#include "../include/neural_network.h"
+#include "../../include/neural_network.h"
 
-// Code
+#include <eigen3/Eigen/Eigen>
+
+using namespace std;
+using namespace Eigen;
+
+
