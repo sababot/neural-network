@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
+#include <eigen3/Eigen/Dense>
 
-// Code
+double calc_output(Eigen::VectorXd, Eigen::VectorXd, double);
