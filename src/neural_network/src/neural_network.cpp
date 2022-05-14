@@ -2,7 +2,15 @@
 
 #include <eigen3/Eigen/Eigen>
 
-double calc_output(Eigen::VectorXd inputs, Eigen::VectorXd weights, double bias)
+DenseLayer::DenseLayer(int n_inputs, int n_neurons)
 {
-	return inputs(0)*weights(0) + inputs(1)*weights(1) + inputs(2)*weights(2) + bias;
+	weights = Eigen::MatrixXd::Random(n_inputs, n_neurons) * 0.1;
+	biases.resize(n_neurons);
+	biases.setZero();
+}
+
+void DenseLayer::forward(Eigen::MatrixXd inputs)
+{
+	outputs = inputs * weights;
+	outputs += biases.replicate(1, outputs.rows()).transpose();
 }
