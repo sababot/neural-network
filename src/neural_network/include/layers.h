@@ -13,8 +13,8 @@ public:
 	Eigen::MatrixXd outputs;
 
 	// Constructor
-	DenseLayer(int n_inputs, int n_neurons);
+	DenseLayer(int, int);
 
 	// Functions
-	void forward(Eigen::MatrixXd inputs);
+	void forward(Eigen::MatrixXd);
 };

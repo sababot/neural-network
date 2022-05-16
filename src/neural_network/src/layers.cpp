@@ -1,7 +1,8 @@
-#include "../include/neural_network.h"
+#include "../include/layers.h"
 
 #include <eigen3/Eigen/Eigen>
 
+// DENSE LAYER
 DenseLayer::DenseLayer(int n_inputs, int n_neurons)
 {
 	weights = Eigen::MatrixXd::Random(n_inputs, n_neurons) * 0.1;
