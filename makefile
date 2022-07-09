@@ -1,5 +1,5 @@
-neuralnet: main.o layers.o activation.o createdata.o
-	g++ main.o layers.o activation.o createdata.o -o neuralnet
+neuralnet: main.o layers.o activation.o import_data.o
+	g++ main.o layers.o activation.o import_data.o -o neuralnet
 
 main.o: main.cpp
 	g++ -c main.cpp
@@ -10,5 +10,9 @@ layers.o: src/neural_network/src/layers.cpp src/neural_network/include/layers.h
 activation.o: src/neural_network/src/activation.cpp src/neural_network/include/activation.h
 	g++ -c src/neural_network/src/activation.cpp
 
-createdata.o: src/utils/src/createdata.cpp src/utils/include/createdata.h
-	g++ -c src/utils/src/createdata.cpp
+import_data.o: src/utils/src/import_data.cpp src/utils/include/import_data.h
+	g++ -c src/utils/src/import_data.cpp
+
+clean:
+	rm *.o
+	rm neuralnet
