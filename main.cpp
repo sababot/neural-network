@@ -21,6 +21,9 @@ int main()
 	layer2.forward(layer1.outputs);
 	layer2.outputs = ActivationReLU(layer2.outputs);
 
+	layer3.forward(layer2.outputs);
+	layer3.outputs = ActivationReLU(layer3.outputs);
+
 	// OUTPUT
-	cout << layer1.outputs << endl << endl << layer2.outputs;
+	cout << layer1.outputs << endl << endl << layer2.outputs << endl << layer3.outputs << endl;
 }
