@@ -21,10 +21,10 @@ int main()
 	DenseLayer layer2(5, 4);
 
 	layer1.forward(X);
-	layer1.outputs = ActivationSoftmax(layer1.outputs);
+	layer1.outputs = ActivationReLU(layer1.outputs);
 
 	layer2.forward(layer1.outputs);
-	layer2.outputs = ActivationReLU(layer2.outputs);
+	layer2.outputs = ActivationSoftmax(layer2.outputs);
 
 	// OUTPUT
 	cout << layer1.outputs << endl << endl << layer2.outputs << endl;
