@@ -17,7 +17,7 @@ Eigen::MatrixXd ActivationSoftmax(Eigen::MatrixXd inputs)
 	for (int i = 0; i < exp_values.rows(); i++)
 	{
 		for (int j = 0; j < exp_values.cols(); j++)
-			exp_values(i, j) = exp(inputs(i, j));
+			exp_values(i, j) = exp(inputs(i, j) - inputs.maxCoeff());
 	}
 
 	Eigen::MatrixXd norm_values(inputs.rows(), inputs.cols());
