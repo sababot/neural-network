@@ -21,6 +21,9 @@ int main()
 	layer2.forward(layer1.outputs);
 	layer2.outputs = ActivationSoftmax(layer2.outputs);
 
+	layer3.forward(layer2.outputs);
+	layer3.outputs = ActivationSoftmax(layer3.outputs);
+
 	// OUTPUT
-	cout << layer2.outputs << endl;
+	cout << layer3.outputs << endl;
 }
