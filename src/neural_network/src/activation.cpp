@@ -34,3 +34,8 @@ Eigen::MatrixXd ActivationSoftmax(Eigen::MatrixXd inputs)
 
 	return norm_values;
 }
+
+double calculate_loss(double prediction, double target)
+{
+
+}
