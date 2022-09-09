@@ -5,12 +5,12 @@
 
 using namespace std;
 
-Eigen::MatrixXd ActivationReLU(Eigen::MatrixXd inputs)
+Eigen::MatrixXd activation_relu(Eigen::MatrixXd inputs)
 {
 	return inputs.array().max(0);
 }
 
-Eigen::MatrixXd ActivationSoftmax(Eigen::MatrixXd inputs)
+Eigen::MatrixXd activation_softmax(Eigen::MatrixXd inputs)
 {
 	Eigen::MatrixXd exp_values(inputs.rows(), inputs.cols());
 
@@ -33,9 +33,4 @@ Eigen::MatrixXd ActivationSoftmax(Eigen::MatrixXd inputs)
 	}
 
 	return norm_values;
-}
-
-double calculate_loss(double prediction, double target)
-{
-
 }

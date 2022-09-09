@@ -2,5 +2,5 @@
 
 #include <eigen3/Eigen/Dense>
 
-Eigen::MatrixXd ActivationReLU(Eigen::MatrixXd);
-Eigen::MatrixXd ActivationSoftmax(Eigen::MatrixXd);
+Eigen::MatrixXd activation_relu(Eigen::MatrixXd);
+Eigen::MatrixXd activation_softmax(Eigen::MatrixXd);

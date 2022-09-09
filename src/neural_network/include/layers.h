@@ -2,7 +2,7 @@
 
 #include <eigen3/Eigen/Dense>
 
-class DenseLayer
+class dense_layer
 {
 private:
 	Eigen::VectorXd biases;
@@ -13,7 +13,7 @@ public:
 	Eigen::MatrixXd outputs;
 
 	// Constructor
-	DenseLayer(int, int);
+	dense_layer(int, int);
 
 	// Functions
 	void forward(Eigen::MatrixXd);

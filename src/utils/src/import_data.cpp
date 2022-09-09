@@ -35,3 +35,28 @@ Eigen::MatrixXd read_data(string filename, int n_rows, int n_cols)
 
     return inputs;
 }
+
+Eigen::VectorXd read_data_single(string filename, int n_rows)
+{
+    Eigen::VectorXd inputs(n_rows);
+
+    // file pointer
+    fstream fin;
+
+    string line;
+
+    // open file
+    fin.open(filename);
+
+    for (int i = 0; i < n_rows; i++)
+    {
+        fin >> line;
+
+        stringstream  ss(line);
+        string str;
+        getline(ss, str, ',');
+        inputs(i) = stod(str);
+    }
+
+    return inputs;
+}
