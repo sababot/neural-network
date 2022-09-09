@@ -1,11 +1,12 @@
 #include "../include/loss.h"
 
 #include <eigen3/Eigen/Eigen>
+#include <iostream>
 #include <cmath>
 
 using namespace std;
 
-Eigen::VectorXd calculate_loss(Eigen::MatrixXd softmax_outputs, Eigen::VectorXd class_targets)
+double calculate_loss(Eigen::MatrixXd softmax_outputs, Eigen::VectorXd class_targets)
 {
 	Eigen::VectorXd out(softmax_outputs.rows());
 
@@ -15,5 +16,14 @@ Eigen::VectorXd calculate_loss(Eigen::MatrixXd softmax_outputs, Eigen::VectorXd 
 		out(i) = -log(softmax_outputs(i, class_target_index));
 	}
 
-	return out;
+	double mean_loss;
+
+	for (int i = 0; i < out.rows(); i++)
+	{
+		mean_loss += out(i);
+	}
+
+	mean_loss /= out.rows();
+
+	return mean_loss;
 }
