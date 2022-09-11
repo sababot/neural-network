@@ -4,11 +4,13 @@
 
 class dense_layer
 {
-private:
-	Eigen::VectorXd biases;
-
 public:
+	// Size
+	int n_neurons;
+	int n_inputs;
+
 	// Output Matrix
+	Eigen::VectorXd biases;
 	Eigen::MatrixXd weights;
 	Eigen::MatrixXd outputs;
 
