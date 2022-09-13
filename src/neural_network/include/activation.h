@@ -2,5 +2,23 @@
 
 #include <eigen3/Eigen/Dense>
 
-Eigen::MatrixXd activation_relu(Eigen::MatrixXd);
-Eigen::MatrixXd activation_softmax(Eigen::MatrixXd);
+class activation_relu
+{
+public:
+	Eigen::MatrixXd inputs;
+	Eigen::MatrixXd outputs;
+	Eigen::MatrixXd dinputs;
+
+	void forward(Eigen::MatrixXd);
+	void backward(Eigen::MatrixXd);
+};
+
+class activation_softmax
+{
+public:
+	Eigen::MatrixXd inputs;
+	Eigen::MatrixXd outputs;
+
+	void forward(Eigen::MatrixXd);
+	void backward(Eigen::MatrixXd);
+};

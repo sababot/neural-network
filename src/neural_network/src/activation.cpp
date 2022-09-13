@@ -5,12 +5,21 @@
 
 using namespace std;
 
-Eigen::MatrixXd activation_relu(Eigen::MatrixXd inputs)
+void activation_relu::forward(Eigen::MatrixXd inputs)
 {
-	return inputs.array().max(0);
+	activation_relu::inputs = inputs;
+	outputs = inputs.array().max(0);
 }
 
-Eigen::MatrixXd activation_softmax(Eigen::MatrixXd inputs)
+void activation_relu::backward(Eigen::MatrixXd dvalues)
+{
+	dinputs = dvalues;
+
+	dinputs = (inputs.array() <= 0).select(0, dinputs);
+}
+
+/*
+void activation_softmax::forward(Eigen::MatrixXd inputs)
 {
 	Eigen::MatrixXd exp_values(inputs.rows(), inputs.cols());
 
@@ -34,3 +43,4 @@ Eigen::MatrixXd activation_softmax(Eigen::MatrixXd inputs)
 
 	return norm_values;
 }
+*/

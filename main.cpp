@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+
 #include "src/neural_network/include/layers.h"
 #include "src/neural_network/include/activation.h"
 #include "src/neural_network/include/loss.h"
@@ -9,6 +11,29 @@ using namespace std;
 
 int main()
 {
+	Eigen::MatrixXd dvals(3, 3);
+	dvals << 2.7, 3.1, -1.0, 
+			-1.5, -2.2, 1.7,
+			3.2, -1.1, 0.2;
+
+	Eigen::MatrixXd X(3, 2);
+	X << 2.7, 3.1, 
+		-1.0, -1.5,
+		-2.2, 1.7;
+
+	Eigen::VectorXd y(5);
+	y << 0, 0, 1, 1, 2;
+
+	dense_layer layer1(2, 3);
+	activation_relu activation1;
+	layer1.forward(X);
+	activation1.forward(layer1.outputs);
+
+	activation1.backward(dvals);
+
+	cout << activation1.dinputs << endl;
+
+	/*
 	// DATASET
 	Eigen::MatrixXd X = read_data("datasets/vertical/data.csv", 300, 2);
 	Eigen::VectorXd y = read_data_single("datasets/vertical/targets.csv", 300);
@@ -64,6 +89,7 @@ int main()
 			layer2.biases = best_layer2_biases;
 		}
 	}
+	*/
 
 	return 0;
 }

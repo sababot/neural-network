@@ -5,18 +5,26 @@
 class dense_layer
 {
 public:
-	// Size
+	//// Variables ////
+	// Forward
 	int n_neurons;
 	int n_inputs;
 
-	// Output Matrix
+	Eigen::MatrixXd inputs;
+
 	Eigen::VectorXd biases;
 	Eigen::MatrixXd weights;
 	Eigen::MatrixXd outputs;
 
-	// Constructor
+	// Backward
+	Eigen::MatrixXd dweights;
+	Eigen::VectorXd dbiases;
+	Eigen::MatrixXd dinputs;
+
+	//// Constructor ////
 	dense_layer(int, int);
 
-	// Functions
+	//// Functions ////
 	void forward(Eigen::MatrixXd);
+	void backward(Eigen::MatrixXd);
 };
