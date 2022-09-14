@@ -11,11 +11,6 @@ using namespace std;
 
 int main()
 {
-	Eigen::MatrixXd dvals(3, 3);
-	dvals << 2.7, 3.1, -1.0, 
-			-1.5, -2.2, 1.7,
-			3.2, -1.1, 0.2;
-
 	Eigen::MatrixXd X(3, 2);
 	X << 2.7, 3.1, 
 		-1.0, -1.5,
@@ -29,9 +24,16 @@ int main()
 	layer1.forward(X);
 	activation1.forward(layer1.outputs);
 
-	activation1.backward(dvals);
+	dense_layer layer2(3, 3);
+	activation_softmax activation2;
+	layer2.forward(layer1.outputs);
+	activation2.forward(layer2.outputs);
 
-	cout << activation1.dinputs << endl;
+	loss_categoral_cross_entropy loss;
+	loss.calculate(activation2.outputs, y);
+	loss.backward(activation2.outputs, y);
+
+	cout << loss.dinputs << endl;
 
 	/*
 	// DATASET
