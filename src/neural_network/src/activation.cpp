@@ -1,7 +1,9 @@
 #include "../include/activation.h"
+#include "../../utils/include/utils.h"
 
 #include <eigen3/Eigen/Eigen>
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
@@ -45,4 +47,23 @@ void activation_softmax::forward(Eigen::MatrixXd inputs)
 	}
 
 	outputs = norm_values;
+}
+
+void activation_softmax::backward(Eigen::MatrixXd dvalues)
+{
+	dinputs.resize(dvalues.rows(), dvalues.cols());
+	dinputs.setZero();
+
+	for (int i = 0; i < outputs.rows(); i++)
+	{
+		Eigen::MatrixXd single_output(outputs.cols(), 1);
+		for (int j = 0; j < single_output.rows(); j++)
+			single_output(j, 0) = outputs(i, j);
+
+		Eigen::VectorXd single_dvalues = dvalues.row(i);
+
+		Eigen::MatrixXd jacobian_matrix = diagflat(outputs.row(i)) - (single_output * single_output.transpose());
+
+		dinputs.row(i) = jacobian_matrix * single_dvalues;
+	}
 }

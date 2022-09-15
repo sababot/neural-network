@@ -33,7 +33,9 @@ int main()
 	loss.calculate(activation2.outputs, y);
 	loss.backward(activation2.outputs, y);
 
-	cout << loss.dinputs << endl;
+	activation2.backward(activation2.outputs);
+
+	cout << activation2.dinputs << endl;
 
 	/*
 	// DATASET

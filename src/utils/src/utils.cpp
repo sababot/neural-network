@@ -15,3 +15,16 @@ Eigen::MatrixXd convert_to_onehot(Eigen::VectorXd input, int n_classes)
 
     return onehot_matrix;
 }
+
+Eigen::MatrixXd diagflat(Eigen::VectorXd input)
+{
+    Eigen::MatrixXd diagflat_matrix(input.rows(), input.rows());
+    diagflat_matrix.setZero();
+
+    for (int i = 0; i < diagflat_matrix.rows(); i++)
+    {
+        diagflat_matrix(i, i) = input(i);
+    }
+
+    return diagflat_matrix;
+}
