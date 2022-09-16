@@ -3,6 +3,7 @@
 
 #include <eigen3/Eigen/Eigen>
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
@@ -30,6 +31,8 @@ Eigen::VectorXd loss_categoral_cross_entropy::forward(Eigen::MatrixXd softmax_ou
 		out(i) = -log(softmax_outputs(i, class_target_index));
 	}
 
+	outputs = out;
+
 	return out;
 }
 
@@ -42,4 +45,31 @@ void loss_categoral_cross_entropy::backward(Eigen::MatrixXd dvalues, Eigen::Vect
 
 	dinputs = (-1 * y_true_onehot) * dvalues.inverse();
 	dinputs /= samples;
+}
+
+///////////////////// ------------------- ////////////////////////
+double activation_softmax_loss_categoral_cross_entropy::forward(Eigen::MatrixXd inputs, Eigen::VectorXd y_true)
+{
+	activation.forward(inputs);
+	outputs = activation.outputs;
+
+	loss.calculate(outputs, y_true);
+	
+	return loss.mean_loss;
+}
+
+void activation_softmax_loss_categoral_cross_entropy::backward(Eigen::MatrixXd dvalues, Eigen::VectorXd y_true)
+{
+	int samples = dvalues.rows();
+
+	// y_true has to be discrete values, not one-hot
+	dinputs = dvalues;
+
+	for (int i = 0; i < samples; i++)
+	{
+		int y = y_true(i);
+		dinputs(i, y) -= 1.0;
+	}
+
+	dinputs = dinputs / samples;
 }

@@ -17,7 +17,9 @@ void activation_relu::backward(Eigen::MatrixXd dvalues)
 {
 	dinputs = dvalues;
 
-	dinputs = (inputs.array() <= 0).select(0, dinputs);
+	dinputs = dinputs.array().max(0);
+
+	cout << inputs << endl;
 }
 
 void activation_softmax::forward(Eigen::MatrixXd inputs)
