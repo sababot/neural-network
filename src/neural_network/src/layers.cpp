@@ -9,7 +9,7 @@ dense_layer::dense_layer(int n_inputs, int n_neurons)
 	dense_layer::n_inputs = n_inputs;
 	dense_layer::n_neurons = n_neurons;
 	
-	weights = Eigen::MatrixXd::Random(dense_layer::n_inputs, dense_layer::n_neurons) * 0.05;
+	weights = Eigen::MatrixXd::Random(dense_layer::n_inputs, dense_layer::n_neurons) * 0.01;
 	biases.resize(dense_layer::n_neurons);
 	biases.setZero();
 }
@@ -24,7 +24,7 @@ void dense_layer::forward(Eigen::MatrixXd inputs)
 
 void dense_layer::backward(Eigen::MatrixXd dvalues)
 {
-	dweights = dense_layer::inputs.transpose() * dvalues;
+	dweights = inputs.transpose() * dvalues;
 	
 	dbiases.resize(dvalues.cols());
 	dbiases.setZero();

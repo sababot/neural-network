@@ -11,6 +11,29 @@ using namespace std;
 
 int main()
 {
+	/*
+	Eigen::MatrixXd softmax_outputs(3, 3);
+	softmax_outputs << 0.7, 0.1, 0.2,
+					   0.1, 0.5, 0.4,
+					   0.02, 0.9, 0.08;
+
+	Eigen::VectorXd class_targets(3);
+	class_targets << 0, 1, 1;
+
+	activation_softmax_loss_categoral_cross_entropy softmax_loss;
+	softmax_loss.backward(softmax_outputs, class_targets);
+	Eigen::MatrixXd dvalues1 = softmax_loss.dinputs;
+
+	activation_softmax activation;
+	activation.outputs = softmax_outputs;
+	loss_categoral_cross_entropy loss;
+	loss.backward(softmax_outputs, class_targets);
+	activation.backward(loss.dinputs);
+	Eigen::MatrixXd dvalues2 = activation.dinputs;
+
+	cout << dvalues2 << endl;
+	*/
+
 	// DATASET
 	Eigen::MatrixXd X = read_data("datasets/vertical/data.csv", 300, 2);
 	Eigen::VectorXd y = read_data_single("datasets/vertical/targets.csv", 300);
@@ -37,10 +60,14 @@ int main()
 	activation1.backward(layer2.dinputs);
 	layer1.backward(activation1.dinputs);
 
-	//cout << layer1.dweights << endl << endl;
-	//cout << layer1.dbiases << endl << endl;
-	//cout << layer2.dweights << endl << endl;
-	//cout << layer2.dbiases << endl << endl;
+	cout << layer2.dweights << endl;
+
+	/*
+	cout << layer1.dweights << endl << endl;
+	cout << layer1.dbiases << endl << endl;
+	cout << layer2.dweights << endl << endl;
+	cout << layer2.dbiases << endl << endl;
+	*/
 
 	return 0;
 }

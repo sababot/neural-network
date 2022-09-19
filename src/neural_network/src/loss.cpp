@@ -43,8 +43,9 @@ void loss_categoral_cross_entropy::backward(Eigen::MatrixXd dvalues, Eigen::Vect
 
 	Eigen::MatrixXd y_true_onehot = convert_to_onehot(y_true, labels);
 
-	dinputs = (-1 * y_true_onehot) * dvalues.inverse();
+	dinputs = -y_true_onehot * dvalues.inverse();
 	dinputs /= samples;
+	cout << dinputs << endl;
 }
 
 ///////////////////// ------------------- ////////////////////////
