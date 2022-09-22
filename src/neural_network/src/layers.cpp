@@ -8,7 +8,7 @@ dense_layer::dense_layer(int n_inputs, int n_neurons)
 {
 	dense_layer::n_inputs = n_inputs;
 	dense_layer::n_neurons = n_neurons;
-	
+
 	weights = Eigen::MatrixXd::Random(dense_layer::n_inputs, dense_layer::n_neurons) * 0.01;
 	biases.resize(dense_layer::n_neurons);
 	biases.setZero();

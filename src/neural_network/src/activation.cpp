@@ -23,7 +23,7 @@ void activation_relu::backward(Eigen::MatrixXd dvalues)
 		{
 			if (inputs(i, j) <= 0)
 			{
-				dvalues(i, j) = 0;
+				dinputs(i, j) = 0;
 			}
 		}
 	}
