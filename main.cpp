@@ -13,13 +13,14 @@ using namespace std;
 int main()
 {
 	// DATASET
-	Eigen::MatrixXd X = read_data("datasets/vertical/data.csv", 300, 2);
-	Eigen::VectorXd y = read_data_single("datasets/vertical/targets.csv", 300);
+	Eigen::MatrixXd X = read_data("datasets/spiral/data.csv", 300, 2);
+	Eigen::VectorXd y = read_data_single("datasets/spiral/targets.csv", 300);
 	Eigen::MatrixXd y_onehot = convert_to_onehot(y, 3);
 
 	// VARIABLES
 	int epochs = 10000;
-	double learning_rate = 0.99;
+	double learning_rate = 0.999;
+	double decay = 0.001;
 
 	// MODEL DEFINITION
 	dense_layer layer1(2, 64);
@@ -28,7 +29,7 @@ int main()
 	dense_layer layer2(64, 3);
 	activation_softmax_loss_categoral_cross_entropy loss_activation;
 
-	optimizer_sgd optimizer(learning_rate);
+	optimizer_sgd optimizer(learning_rate, decay);
 
 	for (int i = 0; i <= epochs; i++)
 	{
@@ -43,9 +44,11 @@ int main()
 		if (i % 10 == 0)
 		{
 			cout << "==================================================>" <<
-			endl << "epoch: " << i << "/" << epochs <<
-			endl << "accuracy: " << calculate_accuracy(loss_activation.outputs, y)
-		    << "	loss: " << loss << endl;
+			endl << "epoch: " << i << "/" << epochs << 
+			endl << "--> lr      : " << optimizer.current_learning_rate <<
+			endl << "--> accuracy: " << calculate_accuracy(loss_activation.outputs, y) <<
+		    endl << "--> loss    : " << loss <<
+		    endl << "==================================================>" << endl << endl;
 		}
 
 		// BACKWARD
@@ -56,13 +59,14 @@ int main()
 		layer1.backward(activation1.dinputs);
 
 		// OPTIMIZATION
+		optimizer.pre_update_params();
 		optimizer.update_params(&layer1);
 		optimizer.update_params(&layer2);
+		optimizer.post_update_params();
 	}
 
 	// FINAL RESULT OUTPUT
-	cout << "==================================================>" << endl;
-	cout << endl << "final result:" 
+	cout << "final result:" 
 	<< endl << "accuracy: " << calculate_accuracy(loss_activation.outputs, y) 
 	<< "	loss: " << loss_activation.forward(layer2.outputs, y) << endl;
 
