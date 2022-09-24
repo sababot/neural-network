@@ -21,6 +21,7 @@ int main()
 	int epochs = 10000;
 	double learning_rate = 0.999;
 	double decay = 0.001;
+	double momentum = 0.9;
 
 	// MODEL DEFINITION
 	dense_layer layer1(2, 64);
@@ -29,7 +30,7 @@ int main()
 	dense_layer layer2(64, 3);
 	activation_softmax_loss_categoral_cross_entropy loss_activation;
 
-	optimizer_sgd optimizer(learning_rate, decay);
+	optimizer_sgd optimizer(learning_rate, decay, momentum);
 
 	for (int i = 0; i <= epochs; i++)
 	{

@@ -21,6 +21,10 @@ public:
 	Eigen::VectorXd dbiases;
 	Eigen::MatrixXd dinputs;
 
+	// Optimization
+	Eigen::MatrixXd weight_momentums;
+	Eigen::VectorXd bias_momentums;
+
 	//// Constructor ////
 	dense_layer(int, int);
 
