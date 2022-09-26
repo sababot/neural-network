@@ -13,8 +13,8 @@ using namespace std;
 int main()
 {
 	// DATASET
-	Eigen::MatrixXd X = read_data("datasets/spiral/data.csv", 300, 2);
-	Eigen::VectorXd y = read_data_single("datasets/spiral/targets.csv", 300);
+	Eigen::MatrixXd X = read_data("datasets/vertical/data.csv", 300, 2);
+	Eigen::VectorXd y = read_data_single("datasets/vertical/targets.csv", 300);
 	Eigen::MatrixXd y_onehot = convert_to_onehot(y, 3);
 
 	// VARIABLES
@@ -68,8 +68,8 @@ int main()
 
 	// FINAL RESULT OUTPUT
 	cout << "final result:" 
-	<< endl << "accuracy: " << calculate_accuracy(loss_activation.outputs, y) 
-	<< "	loss: " << loss_activation.forward(layer2.outputs, y) << endl;
+	<< endl << "accuracy: " << calculate_accuracy(loss_activation.outputs, y) <<
+	endl << "loss    : " << loss_activation.forward(layer2.outputs, y) << endl;
 
 	return 0;
 }
