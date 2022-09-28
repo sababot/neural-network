@@ -4994,7 +4994,7 @@ namespace olc {
 
         virtual olc::rcode SetWindowTitle(const std::string& s) override
         {
-            glutSetWindowTitle(s.c_str());
+            glutSetWindowTitle("hand-written digit recognizer");
             return olc::OK;
         }
 
