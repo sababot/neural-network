@@ -13,9 +13,10 @@ using namespace std;
 int main()
 {
 	// DATASET
-	Eigen::MatrixXd X = read_data("datasets/vertical/data.csv", 300, 2);
-	Eigen::VectorXd y = read_data_single("datasets/vertical/targets.csv", 300);
+	Eigen::MatrixXd X = read_data("datasets/spiral/data.csv", 300, 2);
+	Eigen::VectorXd y = read_data_single("datasets/spiral/targets.csv", 300);
 	Eigen::MatrixXd y_onehot = convert_to_onehot(y, 3);
+	cout << "[DATA IMPORTED]" << endl;
 
 	// VARIABLES
 	int epochs = 10000;
@@ -32,6 +33,9 @@ int main()
 
 	optimizer_sgd optimizer(learning_rate, decay, momentum);
 
+	cout << "[MODEL DEFINED]" << endl;
+
+	cout << "[TRAINING STARTED]" << endl;
 	for (int i = 0; i <= epochs; i++)
 	{
 		// FORWARD
@@ -68,8 +72,8 @@ int main()
 
 	// FINAL RESULT OUTPUT
 	cout << "final result:" 
-	<< endl << "accuracy: " << calculate_accuracy(loss_activation.outputs, y) <<
-	endl << "loss    : " << loss_activation.forward(layer2.outputs, y) << endl;
+	<< endl << "accuracy: " << calculate_accuracy(loss_activation.outputs, y) 
+	<< "	loss: " << loss_activation.forward(layer2.outputs, y) << endl;
 
 	return 0;
 }
