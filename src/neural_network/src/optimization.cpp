@@ -127,3 +127,61 @@ void optimizer_rmsprop::post_update_params()
 {
 	iterations++;
 }
+
+/********** Adaptive Momentum **********/
+optimizer_adam::optimizer_adam(double learning_rate, double decay, double epsilon, double beta_1, double beta_2)
+{
+	optimizer_adam::learning_rate = learning_rate;
+	optimizer_adam::current_learning_rate = learning_rate;
+	optimizer_adam::decay = decay;
+	optimizer_adam::iterations = 0;
+	optimizer_adam::epsilon = epsilon;
+	optimizer_adam::beta_1 = beta_1;
+	optimizer_adam::beta_2 = beta_2;
+}
+
+void optimizer_adam::pre_update_params()
+{
+	current_learning_rate = learning_rate * (1.0 / (1 + decay * iterations));
+}
+
+void optimizer_adam::update_params(dense_layer *layer)
+{
+	if (layer->weight_cache.rows() == 0 || layer->bias_cache.rows() == 0 || layer->weight_momentums.rows() == 0 || layer->bias_momentums.rows() == 0)
+	{
+		layer->weight_cache.resize(layer->weights.rows(), layer->weights.cols());
+		layer->weight_cache.setZero();
+
+		layer->bias_cache.resize(layer->biases.rows(), layer->biases.cols());
+		layer->bias_cache.setZero();
+
+		layer->weight_momentums.resize(layer->weights.rows(), layer->weights.cols());
+		layer->weight_momentums.setZero();
+
+		layer->bias_momentums.resize(layer->biases.rows());
+		layer->bias_momentums.setZero();
+	}
+
+	layer->weight_momentums = beta_1 * layer->weight_momentums.array() + (1 - beta_1) * layer->dweights.array();
+	layer->bias_momentums = beta_1 * layer->bias_momentums.array() + (1 - beta_1) * layer->dbiases.array();
+
+	Eigen::MatrixXd weight_momentums_corrected = layer->weight_momentums.array() / (1 - pow(beta_1, (iterations + 1)));
+	Eigen::VectorXd bias_momentums_corrected = layer->bias_momentums.array() / (1 - pow(beta_1, (iterations + 1)));
+
+	layer->weight_cache = beta_2 * layer->weight_cache.array() + (1 - beta_2) * layer->dweights.array().pow(2);
+	layer->bias_cache = beta_2 * layer->bias_cache.array() + (1 - beta_2) * layer->dbiases.array().pow(2);
+
+	Eigen::MatrixXd weight_cache_corrected = layer->weight_cache.array() / (1 - pow(beta_2, (iterations + 1)));
+	Eigen::VectorXd bias_cache_corrected = layer->bias_cache.array() / (1 - pow(beta_2, (iterations + 1)));
+
+	Eigen::MatrixXd tmp1 = weight_cache_corrected.array().sqrt() + epsilon;
+	layer->weights = layer->weights.array() + (-current_learning_rate * weight_momentums_corrected.array() * tmp1.array().inverse());
+	
+	Eigen::MatrixXd tmp2 = bias_cache_corrected.array().sqrt() + epsilon;
+	layer->biases = layer->biases.array() + (-current_learning_rate * bias_momentums_corrected.array() * tmp2.array().inverse());
+}
+
+void optimizer_adam::post_update_params()
+{
+	iterations++;
+}

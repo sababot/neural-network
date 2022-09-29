@@ -20,11 +20,13 @@ int main()
 
 	// VARIABLES
 	int epochs = 10000;
-	double learning_rate = 0.02;
-	double decay = 0.00001;
+	double learning_rate = 0.05;
+	double decay = 0.0000005;
 	double momentum = 0.9;
 	double epsilon = 0.0000001;
 	double rho = 0.999;
+	double beta_1 = 0.9;
+	double beta_2 = 0.999;
 
 	// MODEL DEFINITION
 	dense_layer layer1(2, 64);
@@ -35,7 +37,8 @@ int main()
 
 	//optimizer_sgd optimizer(learning_rate, decay, momentum);
 	//optimizer_adagrad optimizer(learning_rate, decay, epsilon);
-	optimizer_rmsprop optimizer(learning_rate, decay, epsilon, rho);
+	//optimizer_rmsprop optimizer(learning_rate, decay, epsilon, rho);
+	optimizer_adam optimizer(learning_rate, decay, epsilon, beta_1, beta_2);
 
 	cout << "[MODEL DEFINED]" << endl;
 
