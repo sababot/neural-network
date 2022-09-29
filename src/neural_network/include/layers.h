@@ -25,6 +25,9 @@ public:
 	Eigen::MatrixXd weight_momentums;
 	Eigen::VectorXd bias_momentums;
 
+	Eigen::MatrixXd weight_cache;
+	Eigen::VectorXd bias_cache;
+
 	//// Constructor ////
 	dense_layer(int, int);
 

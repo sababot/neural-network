@@ -7,6 +7,7 @@
 
 using namespace std;
 
+/********** ReLU **********/
 void activation_relu::forward(Eigen::MatrixXd inputs)
 {
 	activation_relu::inputs = inputs;
@@ -29,6 +30,7 @@ void activation_relu::backward(Eigen::MatrixXd dvalues)
 	}
 }
 
+/********** Softmax **********/
 void activation_softmax::forward(Eigen::MatrixXd inputs)
 {
 	activation_softmax::inputs = inputs;

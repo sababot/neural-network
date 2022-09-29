@@ -7,6 +7,7 @@
 
 using namespace std;
 
+/********** Categoral Cross Entropy **********/
 void loss_categoral_cross_entropy::calculate(Eigen::MatrixXd softmax_outputs, Eigen::VectorXd class_targets)
 {
 	// sample losses
@@ -23,12 +24,19 @@ void loss_categoral_cross_entropy::calculate(Eigen::MatrixXd softmax_outputs, Ei
 
 Eigen::VectorXd loss_categoral_cross_entropy::forward(Eigen::MatrixXd softmax_outputs, Eigen::VectorXd class_targets)
 {
-	Eigen::VectorXd out(softmax_outputs.rows());
+	Eigen::MatrixXd clip (2, 1);
+	clip << 0.0000001, // min
+    		  0.9999999; // max
 
-	for (int i = 0; i < softmax_outputs.rows(); i++)
+	Eigen::MatrixXd softmax_outputs_predicted = softmax_outputs.cwiseMin(clip.replicate(1, softmax_outputs.cols()).row(1).colwise().replicate(softmax_outputs.rows()))
+         .cwiseMax(clip.replicate(1, softmax_outputs.cols()).row(0).colwise().replicate(softmax_outputs.rows()));
+
+	Eigen::VectorXd out(softmax_outputs_predicted.rows());
+
+	for (int i = 0; i < softmax_outputs_predicted.rows(); i++)
 	{
 		int class_target_index = class_targets(i);
-		out(i) = -log(softmax_outputs(i, class_target_index));
+		out(i) = -log(softmax_outputs_predicted(i, class_target_index));
 	}
 
 	outputs = out;
@@ -47,7 +55,7 @@ void loss_categoral_cross_entropy::backward(Eigen::MatrixXd dvalues, Eigen::Vect
 	dinputs /= samples;
 }
 
-///////////////////// ------------------- ////////////////////////
+/********** Softmax + Categoral Cross Entropy **********/
 double activation_softmax_loss_categoral_cross_entropy::forward(Eigen::MatrixXd inputs, Eigen::VectorXd y_true)
 {
 	activation.forward(inputs);

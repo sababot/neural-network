@@ -22,3 +22,22 @@ public:
 	void update_params(dense_layer *layer);
 	void post_update_params();
 };
+
+class optimizer_adagrad
+{
+public:
+	optimizer_adagrad(double, double, double);
+
+	double learning_rate;
+	double current_learning_rate;
+	double decay;
+	double epsilon;
+	int iterations;
+
+	Eigen::MatrixXd weight_updates;
+	Eigen::VectorXd bias_updates;
+
+	void pre_update_params();
+	void update_params(dense_layer *layer);
+	void post_update_params();
+};
