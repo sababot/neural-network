@@ -86,3 +86,44 @@ void optimizer_adagrad::post_update_params()
 {
 	iterations++;
 }
+
+/********** Root Mean Square Propagation **********/
+optimizer_rmsprop::optimizer_rmsprop(double learning_rate, double decay, double epsilon, double rho)
+{
+	optimizer_rmsprop::learning_rate = learning_rate;
+	optimizer_rmsprop::current_learning_rate = learning_rate;
+	optimizer_rmsprop::decay = decay;
+	optimizer_rmsprop::iterations = 0;
+	optimizer_rmsprop::epsilon = epsilon;
+	optimizer_rmsprop::rho = rho;
+}
+
+void optimizer_rmsprop::pre_update_params()
+{
+	current_learning_rate = learning_rate * (1.0 / (1 + decay * iterations));
+}
+
+void optimizer_rmsprop::update_params(dense_layer *layer)
+{
+	if (layer->weight_cache.rows() == 0 || layer->bias_cache.rows() == 0)
+	{
+		layer->weight_cache.resize(layer->weights.rows(), layer->weights.cols());
+		layer->weight_cache.setZero();
+		layer->bias_cache.resize(layer->biases.rows(), layer->biases.cols());
+		layer->bias_cache.setZero();
+	}
+
+	layer->weight_cache = rho * layer->weight_cache.array() + (1 - rho) * layer->dweights.array().pow(2);
+	layer->bias_cache = rho * layer->bias_cache.array() + (1 - rho) * layer->dbiases.array().pow(2);
+
+	Eigen::MatrixXd tmp1 = layer->weight_cache.array().sqrt() + epsilon;
+	layer->weights = layer->weights.array() + (-current_learning_rate * layer->dweights.array() * tmp1.array().inverse());
+	
+	Eigen::MatrixXd tmp2 = layer->bias_cache.array().sqrt() + epsilon;
+	layer->biases = layer->biases.array() + (-current_learning_rate * layer->dbiases.array() * tmp2.array().inverse());
+}
+
+void optimizer_rmsprop::post_update_params()
+{
+	iterations++;
+}

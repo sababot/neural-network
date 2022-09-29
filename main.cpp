@@ -20,10 +20,11 @@ int main()
 
 	// VARIABLES
 	int epochs = 10000;
-	double learning_rate = 0.999;
-	double decay = 0.0001;
+	double learning_rate = 0.02;
+	double decay = 0.00001;
 	double momentum = 0.9;
 	double epsilon = 0.0000001;
+	double rho = 0.999;
 
 	// MODEL DEFINITION
 	dense_layer layer1(2, 64);
@@ -32,8 +33,9 @@ int main()
 	dense_layer layer2(64, 3);
 	activation_softmax_loss_categoral_cross_entropy loss_activation;
 
-	optimizer_adagrad optimizer(learning_rate, decay, epsilon);
 	//optimizer_sgd optimizer(learning_rate, decay, momentum);
+	//optimizer_adagrad optimizer(learning_rate, decay, epsilon);
+	optimizer_rmsprop optimizer(learning_rate, decay, epsilon, rho);
 
 	cout << "[MODEL DEFINED]" << endl;
 
