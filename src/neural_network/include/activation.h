@@ -9,7 +9,10 @@ public:
 	Eigen::MatrixXd outputs;
 	Eigen::MatrixXd dinputs;
 
+	Eigen::VectorXd outputs_single;
+
 	void forward(Eigen::MatrixXd);
+	void forward_single(Eigen::VectorXd);
 	void backward(Eigen::MatrixXd);
 };
 
@@ -20,6 +23,9 @@ public:
 	Eigen::MatrixXd outputs;
 	Eigen::MatrixXd dinputs;
 
+	Eigen::VectorXd outputs_single;
+
 	void forward(Eigen::MatrixXd);
+	void forward_single(Eigen::VectorXd);
 	void backward(Eigen::MatrixXd);
 };

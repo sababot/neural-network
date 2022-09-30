@@ -35,3 +35,19 @@ public:
 	void forward(Eigen::MatrixXd);
 	void backward(Eigen::MatrixXd);
 };
+
+class layer_single
+{
+public:
+	layer_single(int, int);
+
+	int n_neurons;
+	int n_inputs;
+
+	Eigen::VectorXd biases_single;
+	Eigen::VectorXd inputs_single;
+	Eigen::MatrixXd weights_single;
+	Eigen::VectorXd outputs_single;
+
+	void forward_single(Eigen::VectorXd);
+};

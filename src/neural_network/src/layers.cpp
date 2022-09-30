@@ -38,3 +38,16 @@ void dense_layer::backward(Eigen::MatrixXd dvalues)
 
 	dinputs = dvalues * weights.transpose();
 }
+
+layer_single::layer_single(int n_inputs, int n_neurons)
+{
+	weights_single = Eigen::MatrixXd::Random(n_neurons, n_inputs) * 0.01;
+	biases_single.resize(n_neurons);
+	biases_single.setZero();
+}
+
+void layer_single::forward_single(Eigen::VectorXd inputs_single)
+{
+	outputs_single = weights_single * inputs_single;
+	outputs_single += biases_single;
+}

@@ -14,6 +14,11 @@ void activation_relu::forward(Eigen::MatrixXd inputs)
 	outputs = inputs.array().max(0);
 }
 
+void activation_relu::forward_single(Eigen::VectorXd inputs_single)
+{
+	outputs_single = inputs_single.array().max(0);
+}
+
 void activation_relu::backward(Eigen::MatrixXd dvalues)
 {
 	dinputs = dvalues;
@@ -58,6 +63,29 @@ void activation_softmax::forward(Eigen::MatrixXd inputs)
 	}
 
 	outputs = norm_values;
+}
+
+void activation_softmax::forward_single(Eigen::VectorXd inputs_single)
+{
+	// unormalized probabilities
+	Eigen::VectorXd exp_values(inputs_single.rows());
+
+	for (int i = 0; i < exp_values.rows(); i++)
+	{
+		exp_values(i) = exp(inputs_single(i) - inputs_single.maxCoeff());
+	}
+
+	// normalized probabilities
+	Eigen::VectorXd norm_values(inputs_single.rows());
+
+	for (int i = 0; i < norm_values.rows(); i++)
+	{
+		double sum = exp_values.sum();
+
+		norm_values(i) = exp_values(i) / sum;
+	}
+
+	outputs_single = norm_values;
 }
 
 void activation_softmax::backward(Eigen::MatrixXd dvalues)
