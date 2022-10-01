@@ -14,13 +14,16 @@ using namespace std;
 int main()
 {
 	// DATASET
-	Eigen::MatrixXd X = read_data("datasets/digit-recognizer/processed/data.csv", 500, 784);
-	Eigen::VectorXd y = read_data_single("datasets/digit-recognizer/processed/targets.csv", 500);
+	Eigen::MatrixXd X = read_data("datasets/digit-recognizer/processed/data_test.csv", 40000, 784);
+	Eigen::VectorXd y = read_data_single("datasets/digit-recognizer/processed/targets.csv", 40000);
+	Eigen::MatrixXd X_test = read_data("datasets/digit-recognizer/processed/test_data.csv", 1000, 784);
+	Eigen::MatrixXd y_test = read_data_single("datasets/digit-recognizer/processed/test_targets.csv", 1000);
+	
 	Eigen::MatrixXd y_onehot = convert_to_onehot(y, 10);
 	cout << "[DATA IMPORTED]" << endl;
 
 	// VARIABLES
-	int epochs = 10;
+	int epochs = 50;
 	double learning_rate = 0.001;
 	double decay = 0;
 	//double momentum = 0.9;
@@ -79,12 +82,18 @@ int main()
 	}
 
 	// FINAL RESULT OUTPUT
+	layer1.forward(X_test);
+	activation1.forward(layer1.outputs);
+
+	layer2.forward(activation1.outputs);
+	double loss = loss_activation.forward(layer2.outputs, y_test);
+	
 	cout << "final result:" 
 	<< endl << "accuracy: " << calculate_accuracy(loss_activation.outputs, y) 
- 	<< "	loss: " << loss_activation.forward(layer2.outputs, y) << endl;
+ 	<< "	loss: " << loss_activation.forward(layer2.outputs, y_test) << endl;
 
- 	export_data(layer1.weights, "model/weights1.csv");
- 	export_data(layer1.biases, "model/biases1.csv");
+ 	export_data(layer1.weights.transpose(), "model/weights1.csv");
+ 	export_data(layer1.biases.transpose(), "model/biases1.csv");
  	export_data(layer2.weights, "model/weights2.csv");
  	export_data(layer2.biases, "model/biases2.csv");
 
