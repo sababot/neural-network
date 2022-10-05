@@ -17,8 +17,8 @@ int main()
 	Eigen::MatrixXd X = read_data("datasets/digit-recognizer/processed/data_test.csv", 40000, 784);
 	Eigen::VectorXd y = read_data_single("datasets/digit-recognizer/processed/targets.csv", 40000);
 	Eigen::MatrixXd X_test = read_data("datasets/digit-recognizer/processed/test_data.csv", 1000, 784);
-	Eigen::MatrixXd y_test = read_data_single("datasets/digit-recognizer/processed/test_targets.csv", 1000);
-	
+	Eigen::VectorXd y_test = read_data_single("datasets/digit-recognizer/processed/test_targets.csv", 1000);
+
 	Eigen::MatrixXd y_onehot = convert_to_onehot(y, 10);
 	cout << "[DATA IMPORTED]" << endl;
 
@@ -31,6 +31,11 @@ int main()
 	//double rho = 0.999;
 	double beta_1 = 0.9;
 	double beta_2 = 0.999;
+
+	int batch_size = 32;
+	int steps = X.rows() / batch_size;
+	if (steps * batch_size < X.rows())
+    	steps++;
 
 	// MODEL DEFINITION
 	dense_layer layer1(784, 64);
