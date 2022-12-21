@@ -10,8 +10,12 @@ public:
 
 	Eigen::MatrixXd dinputs;
 	Eigen::VectorXd outputs;
+	double accumulated_sum;
+	double accumulated_count;
 
 	void calculate(Eigen::MatrixXd, Eigen::VectorXd);
+	double calculate_accumulated();
+	void new_pass();
 
 	Eigen::VectorXd forward(Eigen::MatrixXd, Eigen::VectorXd);
 	void backward(Eigen::MatrixXd, Eigen::VectorXd);

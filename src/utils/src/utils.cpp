@@ -61,3 +61,15 @@ double calculate_accuracy(Eigen::MatrixXd input, Eigen::VectorXd class_targets)
     
     return accuracy;
 }
+
+Eigen::MatrixXd split_rows(Eigen::MatrixXd X, int start, int end)
+{
+    Eigen::MatrixXd output(end - start, X.cols());
+
+    for (int i = start; i < end; i++)
+    {
+        output.row(i - start) = X.row(i);
+    }
+
+    return output;
+}

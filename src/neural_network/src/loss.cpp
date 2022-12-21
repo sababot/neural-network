@@ -20,6 +20,22 @@ void loss_categoral_cross_entropy::calculate(Eigen::MatrixXd softmax_outputs, Ei
 	}
 
 	mean_loss /= sample_losses.rows();
+
+	accumulated_sum += sample_losses.sum();
+	accumulated_count += sample_losses.rows();
+}
+
+double loss_categoral_cross_entropy::calculate_accumulated()
+{
+	double accum_loss = accumulated_sum / accumulated_count;
+
+	return accum_loss;
+}
+
+void loss_categoral_cross_entropy::new_pass()
+{
+	accumulated_sum = 0;
+	accumulated_count = 0;
 }
 
 Eigen::VectorXd loss_categoral_cross_entropy::forward(Eigen::MatrixXd softmax_outputs, Eigen::VectorXd class_targets)
