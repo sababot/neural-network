@@ -12,4 +12,7 @@ a fully-functional neural network implemented from scratch in C++ using the Eige
 - optimization
 
 # datasets
-when building the network, we will be using an insignificant dataset, the spiral dataset, to test our neural network. when the network finishes completion, we will use a real-world dataset to see how it performs.
+when building the network, we will be using an insignificant dataset, the spiral dataset, to test our neural network. when the network finishes completion, we will use this hand-written digit recognition dataset: https://www.kaggle.com/competitions/digit-recognizer/data.
+
+# visualizer
+a small visualiser is created with the olcPixeGameEngine to paint digits and test out the network.
